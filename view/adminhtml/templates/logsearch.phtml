@@ -1,0 +1,143 @@
+<?php $logFiles = $block->allLogs();?>
+<!-- Form of all logs -->
+<div>
+<button type="submit" id="dashboard" onclick="backToDashboard()" title="<?php echo __('Dashboard') ?>" class="action submit primary">
+    <span><?php echo __('Dashboard') ?></span>
+</button>
+<button type="submit" id="usage-info" onclick="myFunction()">Instructions</button>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<form action="<?php echo $block->getUrl('log/searchlog/index'); ?>" name="customlogdata" method="get" id="contactForm-1" data-hasrequired="<?php echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset" id="fieldset">
+        <label class="label" for="log_name"><span><?php echo __('Select Log file : ') ?></span></label>
+        &nbsp;
+        <select name="log_name" id="log_name" class="input-select" type="select" data-validate="{required:true}">
+        <?php foreach ($logFiles as $log) {?>
+                <option value="<?php echo $log; ?>"><?php echo $log; ?></option>
+        <?php }?>
+        </select>
+        &nbsp;&nbsp;
+        <label class="label" for="log_keyword"><span><?php echo __('Search keyword : ') ?></span></label>
+        &nbsp;
+        <input name="log_keyword" id="log_keyword" class="input-text" type="text" data-validate="{required:true}"/>
+        &nbsp;&nbsp;
+        <label class="label" for="log_length"><span><?php echo __('Length : ') ?></span></label>
+        &nbsp;
+        <input name="log_length" id="log_length" value="100" min="100" max="1000" class="input-number" type="number" data-validate="{required:true}"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="submit" id="submit" title="<?php echo __('Submit') ?>" class="action submit primary">
+            <span><?php echo __('Submit') ?></span>
+        </button>
+    </fieldset>
+</form>
+<!-- Form of all logs end -->
+
+<div id="instructions">
+  <p>1. Select a log in which the search needs to be implemented.</p>
+  <p>2. Enter the desired keyword for search.</p>
+  <p>3. Mention the required length of characters for the search result between 100 and 1000.</p>
+  <p>4. If everything is right & required keyword matches the log, then result will be available or else a "No match found" message is displayed.</p>
+</div>
+
+<?php
+$result = $block->checkData();
+if (is_array($result)) {?>
+<!-- Display of all matched content -->
+<style>
+table, th, td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
+  margin: auto;
+}
+table {
+  width: 95%;
+  border-spacing: 5px;
+  margin-top: 20px;
+}
+</style>
+<div class="log-data">
+    <table class="list-of-logs" id="log-data">
+        <thead>
+        <tr>
+            <th scope="col" class="col logs"><?php echo __('Log Name') ?></th>
+            <th scope="col" class="col data"><?php echo __('Content') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!empty($result)) {foreach ($result as $fileName => $content): ?>
+        <tr>
+            <td data-th="<?=$block->escapeHtml(__('Log Name'))?>" class="col logs">
+                <?php echo $fileName ?>
+            </td>
+            <td data-th="<?=$block->escapeHtml(__('Content'))?>" class="col data">
+                <?php echo $content ?>
+            </td>
+        </tr>
+        <?php endforeach;?>
+        <?php }?>
+        </tbody>
+    </table>
+</div>
+<!-- Display of all matched content end -->
+<?php } else {
+    echo "<br>";
+    echo "<br>";
+    echo '<h3 style="text-align : center;">' . $result . '</h3>';
+}
+?>
+
+<!-- Styling and onclick events' for the template -->
+<script>
+// Redirect to Dashboard
+function backToDashboard() {
+  let controllerUrl = "<?php echo $block->getUrl('admin/dashboard/index'); ?>"
+  window.location.href=controllerUrl;
+}
+
+// Instructions display
+function myFunction() {
+  let displayInst = document.getElementById("instructions");
+  if (displayInst.style.display === "none") {
+    displayInst.style.display = "block";
+  } else {
+    displayInst.style.display = "none";
+  }
+}
+
+// Form styling
+document.getElementById("fieldset").style.padding = "10px";
+document.getElementById("fieldset").style.width = "99%";
+
+// Dashboard button styling
+document.getElementById("dashboard").style.width = "10%";
+document.getElementById("dashboard").style.margin = "12px";
+document.getElementById("dashboard").style.float = "right";
+document.getElementById("dashboard").style.padding = "10px";
+
+// Instructions button styling
+document.getElementById("usage-info").style.width = "10%";
+document.getElementById("usage-info").style.margin = "12px";
+document.getElementById("usage-info").style.float = "right";
+document.getElementById("usage-info").style.padding = "10px";
+
+// Instructions styling
+document.getElementById("instructions").style.display = "none";
+document.getElementById("instructions").style.border = "1px solid black";
+document.getElementById("instructions").style.borderRadius = "4px";
+document.getElementById("instructions").style.width = "95%";
+document.getElementById("instructions").style.margin = "15px auto";
+document.getElementById("instructions").style.padding = "5px";
+
+// Dropdown styling
+document.getElementById("log_name").style.padding = "1px 0px";
+document.getElementById("log_name").style.textAlign = "center";
+
+// Submit button styling
+document.getElementById("submit").style.width = "10%";
+</script>
+<!-- Styling and onclick events' for the template end -->
