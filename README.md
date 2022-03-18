@@ -14,7 +14,7 @@
 - Now, open your web browser and type in the following link to open magento admin (assuming for localhost or else type in https://your-magento-url/admin) **localhost/magento-root-directory/admin** you will see an admin menu named **SEARCH LOGS**.
 - Reference Image : https://ibb.co/wyHXSzM
 - On clicking the admin menu you will be redirected to a page with a submit button , select the desired log file from dropdown and enter the desired keyword through which you want the data from that log file along with the data length required.
-- Click on submit and then you will get one of the two messages:
+- Click on submit and then you will get one of the two results:
   1. *Required data will be visible in a table format with file name in first and content in the second column.*
   2. *No files found* - either you have provided a fake or mistaken keyword else the searched keyword has no found results i.e. such keyword in the file doesn't exist.
 
